@@ -17,15 +17,15 @@ def preprocess_image(image_path):
         # If the image has more than 3 channels, discard the extra channels
         image = image[:, :, :3]
 
-    # Convert the image to grayscale
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Apply Gaussian blur to reduce noise
-    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+     # Apply Gaussian blur to reduce noise (keep the image in BGR format)
+    blurred = cv2.GaussianBlur(image, (5, 5), 0)
 
     return blurred
 
 def extract_text(image):
+    # Convert the image to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
     # Use Tesseract OCR to extract text from the preprocessed image
     text = pytesseract.image_to_string(image)
     return text
