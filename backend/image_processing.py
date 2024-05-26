@@ -6,6 +6,17 @@ def preprocess_image(image_path):
     # Load the image
     image = cv2.imread(image_path)
 
+    # Check if the image was successfully loaded
+    if image is None:
+        raise ValueError("Failed to load image from {}".format(image_path))
+
+    # Convert the image to BGR color space (if it's not already in BGR)
+    if len(image.shape) < 3 or image.shape[2] < 3:
+        raise ValueError("Input image must be in BGR format with at least 3 channels")
+    elif image.shape[2] > 3:
+        # If the image has more than 3 channels, discard the extra channels
+        image = image[:, :, :3]
+
     # Convert the image to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
