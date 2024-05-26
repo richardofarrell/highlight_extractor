@@ -9,6 +9,10 @@ CORS(app)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+@app.route('/')
+def index():
+    return jsonify(message="Welcome to the Highlighted Text Extractor API. Use the /upload endpoint to upload an image.")
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -22,4 +26,5 @@ def upload_file():
     return jsonify(highlighted_text=highlighted_text)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    from werkzeug.serving import run_simple
+    run_simple('localhost', 5000, app, use_reloader=True, reloader_type='stat')
